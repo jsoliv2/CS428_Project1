@@ -6,10 +6,15 @@ using TMPro;
 public class WeatherAPIScript : MonoBehaviour
 {
     public GameObject weatherTextObject;
-        // add your personal API key after APPID= and before &units=
-       string url = "http://api.openweathermap.org/data/2.5/weather?lat=33.39&lon=-104.5&APPID=ad402628759d076c74b1e1ea1e64ba9b&units=imperial";
 
-   
+    public float latitude = 33.39f;
+    public float longitude = -104.5f;
+    public bool showTempInCelsius = false;
+
+    // add your personal API key after APPID= and before &units=
+    string url = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&APPID=ad402628759d076c74b1e1ea1e64ba9b&units=imperial";
+
+
     void Start()
     {
 
@@ -21,7 +26,7 @@ public class WeatherAPIScript : MonoBehaviour
    void GetDataFromWeb()
    {
 
-       StartCoroutine(GetRequest(url));
+       StartCoroutine(GetRequest(string.Format(url, latitude, longitude)));
    }
 
     IEnumerator GetRequest(string uri)
@@ -53,7 +58,17 @@ public class WeatherAPIScript : MonoBehaviour
                 string conditions = webRequest.downloadHandler.text.Substring(startConditions+7, (endConditions-startConditions-8));
                 //Debug.Log(conditions);
 
-                weatherTextObject.GetComponent<TextMeshPro>().text = "" + easyTempF.ToString() + "°F\n" + conditions;
+                float tempC = ((float)tempF - 32.0f) * (5.0f / 9.0f);
+                int easyTempC = Mathf.RoundToInt(tempC);
+
+                if (showTempInCelsius)
+                {
+                    weatherTextObject.GetComponent<TextMeshPro>().text = "" + easyTempC.ToString() + "°C\n" + conditions;
+                }
+                else
+                {
+                    weatherTextObject.GetComponent<TextMeshPro>().text = "" + easyTempF.ToString() + "°F\n" + conditions;
+                }
             }
         }
     }

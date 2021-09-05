@@ -33,11 +33,9 @@ public class Magic8BallScript : MonoBehaviour
     void CheckUpsideDown()
     {
         float baseRotation = 180.0f;
-        float currRotation = knickknack.transform.eulerAngles.x;
-        Debug.Log(knickknack.transform.eulerAngles);
+        float currRotation = knickknack.transform.localEulerAngles.z;
 
-        if ((currRotation >= (baseRotation - rotationTolerance) && (currRotation <= (baseRotation + rotationTolerance)))
-         || (currRotation >= (-baseRotation - rotationTolerance) && (currRotation <= (-baseRotation + rotationTolerance))))
+        if ((currRotation >= (baseRotation - rotationTolerance) && (currRotation <= (baseRotation + rotationTolerance))))
         {
             isUpsideDown = true;
         }
@@ -54,7 +52,6 @@ public class Magic8BallScript : MonoBehaviour
             if (phrases.Length > 0)
             {
                 magic8Text.text = phrases[Random.Range(0, phrases.Length)];
-                Debug.Log("RSU");
             }
         }
     }
