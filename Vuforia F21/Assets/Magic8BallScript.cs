@@ -14,10 +14,12 @@ public class Magic8BallScript : MonoBehaviour
     private bool isUpsideDown = false;
     private bool isUpsideDownPrev = false;
 
+    private AudioSource audioSrc;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSrc = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -52,6 +54,7 @@ public class Magic8BallScript : MonoBehaviour
             if (phrases.Length > 0)
             {
                 magic8Text.text = phrases[Random.Range(0, phrases.Length)];
+                audioSrc.Play();
             }
         }
     }
